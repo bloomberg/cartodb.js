@@ -5,7 +5,7 @@
 
     var cdb = root.cdb = {};
 
-    cdb.VERSION = "3.15.8";
+    cdb.VERSION = "3.15.9";
     cdb.DEBUG = false;
 
     cdb.CARTOCSS_VERSIONS = {
@@ -39,6 +39,7 @@
         "../vendor/mustache.js",
 
         "../vendor/leaflet.js",
+        "../vendor/Control.MiniMap.js",
         "../vendor/wax.cartodb.js",
         "../vendor/GeoJSON.js", //geojson gmaps lib
 
@@ -81,6 +82,7 @@
         'geo/ui/infobox.js',
         'geo/ui/tooltip.js',
         'geo/ui/fullscreen.js',
+        'geo/ui/inset_map.js',
 
         'geo/sublayer.js',
         'geo/layer_definition.js',

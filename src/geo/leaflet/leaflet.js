@@ -42,8 +42,15 @@
         // remove the "powered by leaflet"
         this.map_leaflet.attributionControl.setPrefix('');
 
+        // Disable scrollwheel
         if (this.map.get("scrollwheel") == false) this.map_leaflet.scrollWheelZoom.disable();
+        // Disable keyboard
         if (this.map.get("keyboard") == false) this.map_leaflet.keyboard.disable();
+        // Disable dragging (also doubleClickZoom)
+        if (this.map.get("drag") == false) {
+          this.map_leaflet.dragging.disable();
+          this.map_leaflet.doubleClickZoom.disable();
+        }
 
       } else {
 
@@ -295,7 +302,7 @@
       attributionControl._attributions = {};
       var newAttributions = this._originalAttributions.concat(this.map.get('attribution'));
       _.each(newAttributions, function(attribution) {
-        attributionControl.addAttribution(attribution);
+        attributionControl.addAttribution(cdb.core.sanitize.html(attribution));
       });
     },
 
