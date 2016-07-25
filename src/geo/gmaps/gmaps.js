@@ -45,7 +45,11 @@ if(typeof(google) != "undefined" && typeof(google.maps) != "undefined") {
           minZoom: this.map.get('minZoom'),
           maxZoom: this.map.get('maxZoom'),
           disableDefaultUI: true,
+          // Set scrollwheel options
           scrollwheel: this.map.get("scrollwheel"),
+          // Allow dragging (and double click zoom)
+          draggable: this.map.get("drag"),
+          disableDoubleClickZoom: !this.map.get("drag"),
           mapTypeControl:false,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           backgroundColor: 'white',
@@ -255,7 +259,7 @@ if(typeof(google) != "undefined" && typeof(google.maps) != "undefined") {
   setAttribution: function() {
     // Remove old one
     var old = document.getElementById("cartodb-gmaps-attribution")
-      , attribution = this.map.get("attribution").join(", ");
+      , attribution = cdb.core.sanitize.html(this.map.get("attribution").join(", "));
 
       // If div already exists, remove it
       if (old) {

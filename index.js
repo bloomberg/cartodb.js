@@ -6,6 +6,7 @@
 **/
 
 //= require cdb/vendor/leaflet
+//= require cdb/vendor/Control.MiniMap
 //= require cdb/vendor/wax.cartodb
 //= require cdb/vendor/GeoJSON
 //
@@ -77,6 +78,7 @@
 //= require cdb/src/geo/ui/infobox
 //= require cdb/src/geo/ui/time_slider
 //= require cdb/src/geo/ui/fullscreen
+//= require cdb/src/geo/ui/inset_map
 //
 //= require cdb/src/ui/common/tabpane
 //= require cdb/src/ui/common/dialog

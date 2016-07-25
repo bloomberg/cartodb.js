@@ -1,5 +1,4 @@
 describe("Image", function() {
-
   beforeEach(function() {
     var img = $('<img id="image" />');
     $("body").append(img);
@@ -23,15 +22,11 @@ describe("Image", function() {
   });
 
   it("should use the basemap defined in the vizjson", function(done) {
-
     var vizjson = "http://documentation.cartodb.com/api/v2/viz/318ab654-c989-11e4-97c6-0e9d821ea90d/viz.json"
-
     var image = cartodb.Image(vizjson).size(640, 480);
-
-    var basemap = { options: { visible: true, type: 'Tiled', urlTemplate: 'https://{s}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?lg=eng&token=A7tBPacePg9Mj_zghvKt9Q&app_id=KuYppsdXZznpffJsKT24', subdomains: '1234', name: 'Nokia Day', className: 'nokia_day', attribution: "©2012 Nokia <a href='http://here.net/services/terms' target='_blank'>Terms of use</a>" }, infowindow: null, tooltip: null, id: '2c4a8c5e-2ba5-4068-8807-d916a01b48d5', order: 0, parent_id: null, children: [  ], type: 'tiled' }
-
+    var basemapURLTemplate = 'https://{s}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day/{z}/{x}/{y}/256/png8?lg=eng&token=A7tBPacePg9Mj_zghvKt9Q&app_id=KuYppsdXZznpffJsKT24';
     image.getUrl(function() {
-      expect(image.imageOptions.basemap).toEqual(basemap);
+      expect(image.imageOptions.basemap.options.urlTemplate).toEqual(basemapURLTemplate);
       done();
     });
 
@@ -154,7 +149,7 @@ describe("Image", function() {
 
   });
 
-  it("shouldn't use hidden layers to generate the image", function(done) { 
+  it("shouldn't use hidden layers to generate the image", function(done) {
 
     var vizjson = "http://documentation.cartodb.com/api/v2/viz/42e98b9a-bcce-11e4-9d68-0e9d821ea90d/viz.json";
 
@@ -398,7 +393,7 @@ describe("Image", function() {
       }]
     };
 
-    var regexp = new RegExp("http://a.ashbu.cartocdn.com/documentation/api/v1/map/static/bbox/8c67df0046ce227a89a65d0e3f87e80e:1398886221740.03/-87.82814025878906,41.88719899247721,-27.5936508178711,41.942765696654604/250/250\.png");
+    var regexp = new RegExp("http://a.ashbu.cartocdn.com/documentation/api/v1/map/static/bbox/8c67df0046ce227a89a65d0e3f87e80e:1398886221740/-87.82814025878906,41.88719899247721,-27.5936508178711,41.942765696654604/250/250.png");
 
     cartodb.Image(layer_definition).size(250, 250).bbox([[-87.82814025878906,41.88719899247721], [ -27.5936508178711,41.942765696654604]]).getUrl(function(error, url) {
       expect(url.match(regexp).length).toEqual(1);
@@ -560,7 +555,5 @@ describe("Image", function() {
       expect(image.options.layers.layers[1].options.auth_tokens[0]).toBe("e900fe76cc3c1eed4fc018d027d82c8b0e59b2c484d1941954f34b4818a5d660");
       done();
     });
-
   });
-
 });
