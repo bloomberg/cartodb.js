@@ -126,9 +126,6 @@ cdb.geo.geocoder.NOKIA = {
       });
   }
 }
-var MyJSONPCallback = function (data) {
-     alert(data);
-    };
 
 cdb.geo.geocoder.BING = {
 
