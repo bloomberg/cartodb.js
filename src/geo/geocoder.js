@@ -126,3 +126,66 @@ cdb.geo.geocoder.NOKIA = {
       });
   }
 }
+var MyJSONPCallback = function (data) {
+     alert(data);
+    };
+
+cdb.geo.geocoder.BING = {
+
+  keys: {
+    api_key:   "AjpDgTq-h1SPLZfoD8fxeLqWRlQ8JqoM17ZwiNN27jOn82uddopEz04yR_nlNhh4",
+  },
+
+  geocode: function(address, callback) {
+    address = address.toLowerCase()
+      .replace(/é/g,'e')
+      .replace(/á/g,'a')
+      .replace(/í/g,'i')
+      .replace(/ó/g,'o')
+      .replace(/ú/g,'u');
+
+      var protocol = '';
+      if(location.protocol.indexOf('http') === -1) {
+        protocol = 'http:';
+      }
+      $.ajax({
+          url: protocol + '//dev.virtualearth.net/REST/v1/Locations?q=' + encodeURIComponent(address) + '&maxResults=1' + '&key=' + this.keys.api_key,
+          dataType: 'jsonp',
+          jsonp: "jsonp",
+          success: function(data){
+            var coordinates = [];
+            if (data && data.resourceSets[0].resources) {
+            
+              var res = data.resourceSets[0].resources;
+
+              for(var i in res) {
+                var r=res[i],position;
+
+                if(r.point){
+                  position = {
+                    lat: r.point.coordinates[0],
+                    lon: r.point.coordinates[1]
+                  };
+                }
+
+                if (r.bbox) {
+                  position.boundingbox = {
+                    north: r.bbox[2],
+                    south: r.bbox[0],
+                    east: r.bbox[3],
+                    west: r.bbox[1]
+                  }
+                }
+                
+                coordinates.push(position);
+            }
+          }
+          if (callback) {
+            callback.call(this, coordinates);
+        }
+        }
+      }
+    );
+  }
+}
+
