@@ -142,8 +142,8 @@ cdb.geo.geocoder.BING = {
       .replace(/ú/g,'u');
 
       var protocol = '';
-      if(location.protocol.indexOf('http') === -1) {
-        protocol = 'http:';
+      if(location.protocol.indexOf('https') === -1) {
+        protocol = 'https:';
       }
       $.ajax({
           url: protocol + '//dev.virtualearth.net/REST/v1/Locations?q=' + encodeURIComponent(address) + '&maxResults=1' + '&key=' + this.keys.api_key,
