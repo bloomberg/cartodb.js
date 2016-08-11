@@ -130,7 +130,7 @@ cdb.geo.geocoder.NOKIA = {
 cdb.geo.geocoder.BING = {
 
   keys: {
-    api_key:   "AjpDgTq-h1SPLZfoD8fxeLqWRlQ8JqoM17ZwiNN27jOn82uddopEz04yR_nlNhh4",
+    api_key:   "AiYSWJYqsRki5Kkx-0Q9BN4IIw6OOLrJvc1Iw7ll_BQAPq7YJ2-0y0gtq5DdGY1L",
   },
 
   geocode: function(address, callback) {
