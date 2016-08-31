@@ -909,9 +909,9 @@ cdb.geo.ui.StackedLegend = cdb.core.View.extend({
 
   render: function() {
 
-    if (this.vis) {
+    /*if (this.vis) {
       this.$el.html(this.template());
-    }
+    }*/
 
     this._renderItems();
     this._checkVisibility();
