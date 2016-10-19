@@ -354,6 +354,13 @@ function layerView(base) {
         if (e.timeStamp === previousEvent) {
           clearTimeout(eventTimeout);
         }
+
+        var tooltipFields = table.menu.layer_panels[layer].model.get('tooltip').fields;
+        table.mapTab.tooltip.options.fields = tooltipFields;
+        table.mapTab.tooltip.model.attributes['fields'] = tooltipFields;
+        table.mapTab.infowindow.table = table.menu.layer_panels[layer].table;
+        table.mapTab.infowindow.model.attributes['fields'] = table.menu.layer_panels[layer].model.get('infowindow').fields;
+
         eventTimeout = setTimeout(function() {
           self.trigger('mouseover', e, latlon, pxPos, data, layer);
           self.trigger('layermouseover', e, latlon, pxPos, data, layer);
@@ -369,9 +376,11 @@ function layerView(base) {
         hovers[layer] = 0;
         if(!_.any(hovers)) {
           self.trigger('mouseout');
+
+          _featureOut  && _featureOut.apply(this, arguments);
+          self.featureOut  && self.featureOut.apply(self, arguments);
         }
-        _featureOut  && _featureOut.apply(this, arguments);
-        self.featureOut  && self.featureOut.apply(self, arguments);
+        
       };
 
       opts.featureClick  = _.debounce(function() {
