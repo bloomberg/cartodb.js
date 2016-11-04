@@ -3217,7 +3217,6 @@ wax.leaf.interaction = function() {
                             // avoid adding tiles without src, grid url can't be found for them
                             if(_tile.src) {
                               var offset = wax.u.offset(_tile);
-                              console.log("Tile: " + tile + " Offset: Top " + offset.top + " Left " + offset.left);
                               o.push([offset.top, offset.left, _tile]);
                             }
                         }
