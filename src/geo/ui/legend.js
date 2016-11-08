@@ -711,7 +711,7 @@ cdb.geo.ui.CategoryLegend = cdb.geo.ui.BaseLegend.extend({
 
     view = new cdb.geo.ui.LegendItem({
       model: item,
-      className: (item.get("value") && item.get("value").indexOf("http") >= 0 || item.get("type") && item.get("type") == 'image') ? "bkg" : "",
+      className: (item.get("value") && _.isString(item.get("value")) && item.get("value").indexOf("http") >= 0 || item.get("type") && item.get("type") == 'image') ? "bkg" : "",
       template: '\t\t<div class="bullet" style="background: <%= value %>"></div> <%- name || ((name === false) ? "false": "null") %>'
     });
 
@@ -807,7 +807,7 @@ cdb.geo.ui.ColorLegend = cdb.geo.ui.BaseLegend.extend({
 
     view = new cdb.geo.ui.LegendItem({
       model: item,
-      className: (item.get("value") && item.get("value").indexOf("http") >= 0) ? "bkg" : "",
+      className: (item.get("value") && _.isString(item.get("value")) && item.get("value").indexOf("http") >= 0) ? "bkg" : "",
       template: '\t\t<div class="bullet" style="background: <%= value %>"></div> <%- name || ((name === false) ? "false": "null") %>'
     });
 
@@ -1114,7 +1114,7 @@ cdb.geo.ui.CustomLegend = cdb.geo.ui.BaseLegend.extend({
 
     view = new cdb.geo.ui.LegendItem({
       model: item,
-      className: (item.get("value") && item.get("value").indexOf("http") >= 0) ? "bkg" : "",
+      className: (item.get("value") && _.isString(item.get("value")) && item.get("value").indexOf("http") >= 0) ? "bkg" : "",
       template: template
     });
 
