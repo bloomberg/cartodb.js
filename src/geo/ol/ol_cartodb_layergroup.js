@@ -108,6 +108,9 @@
           if (e.timeStamp === previousEvent) {
             clearTimeout(eventTimeout);
           }
+
+          table.mapTab.setTooltipLayer(layer);
+
           eventTimeout = setTimeout(function() {
             self.trigger('mouseover', e, latlon, pxPos, data, layer);
             self.trigger('layermouseover', e, latlon, pxPos, data, layer);
@@ -127,7 +130,9 @@
           self.featureOut  && self.featureOut.apply(this, arguments);
         };
 
-        opts.featureClick  = _.debounce(function() {
+        opts.featureClick  = _.debounce(function(e, latlon, pxPos, data, layer) {
+          table.mapTab.setInfowindowLayer(layer);
+          
           _featureClick  && _featureClick.apply(this, arguments);
           self.featureClick  && self.featureClick.apply(opts, arguments);
         }, 10);
