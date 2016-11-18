@@ -17,10 +17,7 @@
             cdb.geo.MapView.prototype.initialize.call(this);
 
             this._attributionElement = document.createElement("DIV");
-            this._attributionElement.style = "position: absolute;right: 0em;bottom: 0em; padding-left: 2px; padding-right:2px;" + 
-                                            "background-color: rgba(255,255,255,0.7); box-shadow: 0 0 5px #bbb; margin: 0; " + 
-                                            "font: 11px/1.5 'Helvetica Neue', Arial, Helvetica, sans-serif;" + 
-                                            "color: black; white-space: nowrap;";
+            this._attributionElement.classList.add("ol-cartodb-attribution");
 
             if (!this.options.map_object) {
                 var modelCenter = this.map.get('center');
