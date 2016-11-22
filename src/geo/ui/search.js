@@ -82,7 +82,7 @@ cdb.geo.ui.Search = cdb.core.View.extend({
     this._showLoader();
     // Remove previous pin
     this._destroySearchPin();
-    cdb.geo.geocoder.BING.geocode(address, function(places) {
+    cdb.geo.geocoder.HERE.geocode(address, function(places) {
       self._onResult(places);
       // Hide loader
       self._hideLoader();
