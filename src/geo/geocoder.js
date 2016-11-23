@@ -188,7 +188,8 @@ cdb.geo.geocoder.BING = {
 
 cdb.geo.geocoder.HERE = {
 
-  url: "geocoder.cit.api.here.com/6.2/geocode.json",
+  // url: "geocoder.cit.api.here.com/6.2/geocode.json",
+  url: "geocoder.api.here.com/6.2/geocode.json",
 
   keys: {
     app_id:   "dpVmd7FBsTAcNEkUDZlA",
