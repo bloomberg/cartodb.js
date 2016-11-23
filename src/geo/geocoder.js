@@ -234,7 +234,7 @@ cdb.geo.geocoder.HERE = {
 
          try {
            _location = data.Response.View[0].Result[0].Location;
-           category = data.Response.View[0].Result[0].LocationType;
+           category = _location.LocationType;
          } catch (e) {
            console.error("Error geocoding e:", e);
            return;
