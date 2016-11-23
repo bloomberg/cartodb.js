@@ -187,7 +187,8 @@ cdb.geo.geocoder.BING = {
 }
 
 cdb.geo.geocoder.HERE = {
-
+  
+  // Use the below URL for testing only.
   // url: "geocoder.cit.api.here.com/6.2/geocode.json",
   url: "geocoder.api.here.com/6.2/geocode.json",
 
