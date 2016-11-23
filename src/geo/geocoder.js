@@ -206,7 +206,6 @@ cdb.geo.geocoder.HERE = {
       .replace(/ú/g,'u');
 
       var protocol = '';
-      var iIndex = location.protocol.indexOf('http');
       if ( location.protocol.indexOf('http') === -1 ) {
         protocol = 'http:';
       } else if ( location.protocol === 'https:' || location.protocol === 'http:' ) {
