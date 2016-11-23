@@ -122,6 +122,10 @@ cdb.geo.ui.Search = cdb.core.View.extend({
         this.model.setCenter(position);
         this.model.setZoom(this._getZoomByCategory(location.type));
       }
+      
+      if ( location.title ) {
+        address = location.title;
+      }
 
       if (this.options.searchPin) {
         this._createSearchPin(position, address);
