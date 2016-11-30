@@ -186,3 +186,93 @@ cdb.geo.geocoder.BING = {
   }
 }
 
+cdb.geo.geocoder.HERE = {
+  
+  // Use the below URL for testing only.
+  // url: "geocoder.cit.api.here.com/6.2/geocode.json",
+  url: "geocoder.api.here.com/6.2/geocode.json",
+
+  keys: {
+    app_id:   "dpVmd7FBsTAcNEkUDZlA",
+    app_code: "h5jBMDW1x8bSFNEySGGLLA",
+    gen: 9,
+    maxresults: 1
+  },
+
+  geocode: function(address, callback) {
+    address = address.toLowerCase()
+      .replace(/é/g,'e')
+      .replace(/á/g,'a')
+      .replace(/í/g,'i')
+      .replace(/ó/g,'o')
+      .replace(/ú/g,'u');
+
+      var protocol = '';
+      if ( location.protocol.indexOf('http') === -1 ) {
+        protocol = 'http:';
+      } else if ( location.protocol === 'https:' || location.protocol === 'http:' ) {
+        protocol =  location.protocol;
+      }
+
+      var here_url = protocol + '//' + this.url + '?';
+
+      var key, i = 0;
+      for (key in this.keys) {
+        if (this.keys.hasOwnProperty(key)) {
+          if ( i !== 0 ) {
+            here_url+='&';
+          }
+          here_url+= key + '=' + this.keys[key];
+          i++;
+        }
+      }
+      here_url+= '&searchtext=' + encodeURIComponent(address);
+
+      $.getJSON(here_url, function(data) {
+
+         var _location, position, category;
+         var coordinates = [];
+
+         try {
+           _location = data.Response.View[0].Result[0].Location;
+           category = _location.LocationType;
+         } catch (e) {
+           console.error("Error geocoding e:", e);
+           return;
+         }
+
+         if ( _location ) {
+             position = {
+              lat: _location.DisplayPosition.Latitude,
+              lon: _location.DisplayPosition.Longitude
+            };
+
+            if ( _location.MapView ) {
+                position.boundingbox = {
+                    north: _location.MapView.TopLeft.Latitude,
+                    south: _location.MapView.BottomRight.Latitude,
+                    east: _location.MapView.BottomRight.Longitude,
+                    west: _location.MapView.TopLeft.Longitude
+                };
+            }
+
+            if ( _location.Address.Label ) {
+              position.title = _location.Address.Label;
+            }
+
+            if ( category ) {
+              position.type = category;
+            }
+
+            coordinates.push(position);
+        }
+
+        if (callback) {
+          callback.call(this, coordinates);
+        }
+      }).fail(function( jqxhr, textStatus, error ) {
+         var err = textStatus + ", " + error;
+         console.error( "Geocoder request failure: " + err + "\nURL was:" + here_url );
+      });
+  }
+}
