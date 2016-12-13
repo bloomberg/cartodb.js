@@ -18,6 +18,7 @@
 
             this._attributionElement = document.createElement("DIV");
             this._attributionElement.classList.add("ol-cartodb-attribution");
+            this._attributionElement.classList.add("cartodb-attribution");
 
             if (!this.options.map_object) {
                 var modelCenter = this.map.get('center');
@@ -207,8 +208,9 @@
             this._setCenter(this.map.get("center"));
         },
         pixelToLatLon: function(pos){
-            var point = this.map_ol.getCoordinateFromPixel([pos[0], pos[1]]);
-            return point;
+            var coordinate = this.map_ol.getCoordinateFromPixel([pos[0], pos[1]]);
+            var lonLat = ol.proj.toLonLat(coordinate);
+            return {"lat": lonLat[1], "lng": lonLat[0]}; 
         },
 
         latLonToPixel: function(latlon){
