@@ -67,6 +67,8 @@
         self.map.unset('view_bounds_ne', { silent: true });
       }
 
+      this.map_leaflet.attributionControl.classList.add("cartodb-attribution");
+
       this.map.bind('set_view', this._setView, this);
       this.map.layers.bind('add', this._addLayer, this);
       this.map.layers.bind('remove', this._removeLayer, this);

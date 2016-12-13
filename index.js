@@ -44,6 +44,11 @@
 //= require cdb/src/geo/layer_definition
 //= require cdb/src/geo/common
 //
+//= require cdb/src/geo/ol/ol_base_layer
+//= require cdb/src/geo/ol/ol_tiled_layer
+//= require cdb/src/geo/ol/ol_cartodb_layergroup
+//= require cdb/src/geo/ol/ol
+//
 //= require cdb/src/geo/leaflet/leaflet.geometry
 //= require cdb/src/geo/leaflet/leaflet_base
 //= require cdb/src/geo/leaflet/leaflet_plainlayer
