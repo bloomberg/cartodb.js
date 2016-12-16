@@ -140,6 +140,8 @@
         base.call(this, opts);
 
         cdb.geo.OpenLayersBaseLayerView.call(this, layerModel, new ol.layer.Tile(), map_ol);
+
+        this._tilesCount = 0;
       };
 
       _.extend(
@@ -279,7 +281,6 @@
 
         update: function(){
             self = this;
-
             self.trigger('updated');
             self.loading();
             self.getTiles(function(urls, err) {
@@ -289,10 +290,14 @@
 
                   if(self._source){
                     self.tiles = {};
-                    self._source.un('tileloadend', self._tileloadended);
+                    self._source.un('tileloadstart', self._tileloadstart, self);
+                    self._source.un('tileloaderror', self._tileloadended, self);
+                    self._source.un('tileloadend', self._tileloadended, self);
                   }
 
                   self._source = new ol.source.XYZ({ urls: urls["tiles"] });
+                  self._source.on('tileloadstart', self._tileloadstart, self);
+                  self._source.on('tileloaderror', self._tileloadended, self);
                   self._source.on('tileloadend', self._tileloadended, self);
 
                   self.layer_ol.setSource(self._source);
@@ -304,9 +309,22 @@
                 }
                 });
         },
- 
+
+        _tileloadstart: function(e){
+          if(this._tilesCount == 0) {
+            this.loading();
+          }
+
+          this._tilesCount++;
+        },
+
         _tileloadended: function(e){
             this.tiles[e.tile.getTileCoord()] = e.tile;
+            this._tilesCount--;  
+
+            if(this._tilesCount == 0) {
+              this.finishLoading();
+            }
         },
 
         onLayerDefinitionUpdated: function() {
