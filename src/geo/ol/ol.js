@@ -18,7 +18,7 @@
 
             this._attributionElement = document.createElement("DIV");
             this._attributionElement.classList.add("ol-cartodb-attribution");
-            this._attributionElement.classList.add("cartodb-attribution");
+            this._attributionElement.classList.add("attribution");
 
             if (!this.options.map_object) {
                 var modelCenter = this.map.get('center');
