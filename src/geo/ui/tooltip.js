@@ -70,13 +70,18 @@ cdb.geo.ui.Tooltip = cdb.geo.ui.InfoBox.extend({
 
             // loop through content values
             data.fields = c.fields;
-
             // alternamte names
             var names = this.options.alternative_names;
             if (names) {
               for(var i = 0; i < data.fields.length; ++i) {
                 var f = data.fields[i];
-                f.title = names[f.title] || f.title;
+                if(f.title){
+                  f.title = names[f.alias] || names[f.title] || f.title;
+                  //If alias has alternate name remove alias so that title is shown instead (hacky??)
+                  if(f.title === names[f.alias]){
+                    f.alias = null
+                  }
+                }
               }
             }
             this.show(pos, data);
