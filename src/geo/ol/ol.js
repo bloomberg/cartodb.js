@@ -47,34 +47,37 @@
             //this.map.geometries.bind('add', this._addGeometry, this);
             //this.map.geometries.bind('remove', this._removeGeometry, this);
 
-            this.map_ol.on('click', function(e){
+            this._mapClickHndlrKey = this.map_ol.on('click', function(e){
                 var coord = ol.proj.toLonLat(e.coordinate);
                 this.trigger('click', e.originalEvent, [coord[1], coord[0]]);
             }, this);
 
-            this.map_ol.on('dblclick', function(e) {
+            this._mapDblClickHndrKey = this.map_ol.on('dblclick', function(e) {
                 this.trigger('dblclick', e.originalEvent);
             });
 
-            this.map_ol.on('pointerdrag', function(e){
+            this._mapPointDragHndrKey = this.map_ol.on('pointerdrag', function(e){
                 this._updateModelCenter();
                 this.trigger('drag');
             }, this);
 
-            this.map_ol.on('moveend', function(e){
+            this._mapMoveEndHndrKey = this.map_ol.on('moveend', function(e){
                 var center = ol.proj.toLonLat(this.view_ol.getCenter());
                 this.trigger('dragend', [center[1], center[0]]);
             }, this);
 
-            this.view_ol.on('change:center', function(){
+            this._viewCenterChangeHndrKey = this.view_ol.on('change:center', function(){
+                this._updateModelCenter();
+            }, this);
+
+            this._mapResizedHndrKey = this.map_ol.on('change:size', function() {
                 this._updateModelCenter();
             }, this);
 
             this._postcomposeKey = undefined;
 
-
             //simulating zoom events as OpenLayers map does not provide them
-            this.view_ol.on('change:resolution', function(){
+            this._viewResolutionChangedHndrKey = this.view_ol.on('change:resolution', function(){
                 this._currentResolution = this.view_ol.getResolution();
                 if(this._postcomposeKey) return;
                 this.trigger("zoomstart");
@@ -108,7 +111,8 @@
         showBounds: function(bounds){
             var extent = [bounds[0][1], bounds[0][0], bounds[1][1], bounds[1][0]];
             var transformedExtent = ol.proj.transformExtent(extent, "EPSG:4326", "EPSG:3857");
-            this.view_ol.fit(transformedExtent, this.map_ol.getSize());
+            this.view_ol.fit(transformedExtent, this.map_ol.getSize(), { "padding": [-2, -2, -2, -2] });
+            //this.view_ol.fit(transformedExtent, this.map_ol.getSize());
         },
 
         _updateModelCenter: function(){
@@ -190,6 +194,42 @@
                 delete this.layers[i];
             }
 
+            if(this._mapClickHndlrKey){
+                this.map_ol.unByKey(this._mapClickHndlrKey);
+                this._mapClickHndlrKey = undefined;
+            }
+
+            if(this._mapDblClickHndrKey){
+                this.map_ol.unByKey(this._mapDblClickHndrKey);
+                this._mapDblClickHndrKey = undefined;
+            }
+
+            if(this._mapPointDragHndrKey){
+                this.map_ol.unByKey(this._mapPointDragHndrKey);
+                this._mapPointDragHndrKey = undefined;
+            }
+
+            if(this._mapMoveEndHndrKey){
+                this.map_ol.unByKey(this._mapMoveEndHndrKey);
+                this._mapMoveEndHndrKey = undefined;
+            }
+
+            if(this._viewCenterChangeHndrKey){
+                this.view_ol.unByKey(this._viewCenterChangeHndrKey);
+                this._viewCenterChangeHndrKey = undefined;
+            }
+
+            if(this._mapResizedHndrKey){
+                this.map_ol.unByKey(this._mapResizedHndrKey);
+                this._mapResizedHndrKey = undefined;
+            }
+
+
+            if(this._viewResolutionChangedHndrKey){
+                this.view_ol.unByKey(this._viewResolutionChangedHndrKey);
+                this._viewResolutionChangedHndrKey = undefined;
+            }
+
             cdb.core.View.prototype.clean.call(this);
         },
         
@@ -262,7 +302,7 @@
         },
 
         invalidateSize: function(){
-
+            this.setView();
         }
     },
     {
