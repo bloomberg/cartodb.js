@@ -14,7 +14,6 @@
                 var element = this.map_ol.getTargetElement();
                 element.style.backgroundImage = undefined;
                 element.style.backgroundColor = "#FF000000";
-                this._dispose();
             },
             _update: function(){
                 var element = this.map_ol.getTargetElement();

@@ -176,7 +176,10 @@
 
             for (var i in this.layers) {
                 var l = this.layers[i];
-                l.layer_ol.setZIndex(l.model.get('order'));
+
+                //plain layer will have null 
+                if(l.layer_ol != null) 
+                    l.layer_ol.setZIndex(l.model.get('order'));
             }
 
             if(opts === undefined || !opts.silent) {
@@ -190,6 +193,7 @@
             for(var i in this.layers){
                 var layerView = this.layers[i];
                 layerView.remove();
+                layerView.dispose();
 
                 delete this.layers[i];
             }
