@@ -54,7 +54,7 @@
 
             this._mapDblClickHndrKey = this.map_ol.on('dblclick', function(e) {
                 this.trigger('dblclick', e.originalEvent);
-            });
+            }, this);
 
             this._mapPointDragHndrKey = this.map_ol.on('pointerdrag', function(e){
                 this._updateModelCenter();
