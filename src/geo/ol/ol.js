@@ -278,14 +278,23 @@
         setAttribution: function() {
             this._attributionElement.innerHTML = "";
 
+            //filtering duplicates
+            var mapAttributions = {};
+
             var attributions = this.map.get('attribution');
+
             attributions.forEach(function(attribution){
                 if(attribution){
-                    var item = document.createElement("DIV");
-                    item.innerHTML = cdb.core.sanitize.html(attribution);
-                    this._attributionElement.appendChild(item);
+                    var text = cdb.core.sanitize.html(attribution);
+                    if(!mapAttributions[text]){
+                        mapAttributions[text] = 0;
+                    }
+
+                    mapAttributions[text]++;
                 }
-            }, this);
+            });
+
+            this._attributionElement.innerHTML = Object.keys(mapAttributions).join(', ');
 
         },
         getSize: function(){
