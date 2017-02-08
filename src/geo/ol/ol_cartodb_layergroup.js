@@ -20,8 +20,9 @@
     };
 
     var CartodbNamedMap = function(opts) {
+      this.options = {};
+      _.defaults(this.options, default_options);
 
-      this.options = _.defaults(opts, default_options);
       this.tiles = 0;
       this.tilejson = null;
       this.interaction = [];
@@ -30,28 +31,32 @@
           throw new Error('cartodb-ol needs at least the named_map');
       }
 
+    _.extend(this.options, opts);
+
       // Add CartoDB logo
       if (this.options.cartodb_logo != false)
         cdb.geo.common.CartoDBLogo.addWadus({ left: 74, bottom:8 }, 2000, this.options.map.getTarget());
-      // lovely wax connector overwrites options so set them again
-      // TODO: remove wax.connector here
-       _.extend(this.options, opts);
-      
+
       NamedMap.call(this, this.options.named_map, this.options);
       CartoDBLayerCommon.call(this);
     };
 
-    //TODO: research this interation class
     CartodbNamedMap.prototype.interactionClass = wax.ol.interaction;
 
-    _.extend(CartodbNamedMap.prototype, LayerDefinition.prototype, CartoDBLayerCommon.prototype);
+    _.extend(CartodbNamedMap.prototype, 
+      NamedMap.prototype, 
+      CartoDBLayerCommon.prototype);
 
     var CartodbLayerGroup = function(opts) {
+      this.options = {};
 
-      this.options = _.defaults(opts, default_options);
+      
+      _.defaults(this.options, default_options);
       this.tiles = {};
       this.tilejson = null;
       this.interaction = [];
+
+      _.extend(this.options, opts);
 
       if (!opts.layer_definition && !opts.sublayers) {
           throw new Error('cartodb-ol needs at least the layer_definition or sublayer list');
@@ -59,21 +64,23 @@
 
       // if only sublayers is available, generate layer_definition from it
       if(!opts.layer_definition) {
-        opts.layer_definition = LayerDefinition.layerDefFromSubLayers(opts.sublayers);
+        this.options.layer_definition = LayerDefinition.layerDefFromSubLayers(opts.sublayers);
       }
 
       // Add CartoDB logo
       if (this.options.cartodb_logo != false)
         cdb.geo.common.CartoDBLogo.addWadus({ left: 74, bottom:8 }, 2000, this.options.map.getTarget());
 
-      LayerDefinition.call(this, opts.layer_definition, this.options);
+      LayerDefinition.call(this, this.options.layer_definition, this.options);
       CartoDBLayerCommon.call(this);
     };
 
     //TODO: research this interation class
     CartodbLayerGroup.prototype.interactionClass =  wax.ol.interaction;
 
-    _.extend(CartodbLayerGroup.prototype, LayerDefinition.prototype, CartoDBLayerCommon.prototype);
+    _.extend(CartodbLayerGroup.prototype, 
+      LayerDefinition.prototype, 
+      CartoDBLayerCommon.prototype);
 
 
     function LayerGroupView(base) {
@@ -109,7 +116,9 @@
             clearTimeout(eventTimeout);
           }
 
-          table.mapTab.setTooltipLayer(layer);
+          if (typeof table !== 'undefined') {
+            table.mapTab.setTooltipLayer(layer);
+          }
 
           eventTimeout = setTimeout(function() {
             self.trigger('mouseover', e, latlon, pxPos, data, layer);
@@ -131,7 +140,9 @@
         };
 
         opts.featureClick  = _.debounce(function(e, latlon, pxPos, data, layer) {
-          table.mapTab.setInfowindowLayer(layer);
+          if (typeof table !== 'undefined') {
+            table.mapTab.setInfowindowLayer(layer);
+          }
           
           _featureClick  && _featureClick.apply(this, arguments);
           self.featureClick  && self.featureClick.apply(opts, arguments);
