@@ -283,7 +283,7 @@ cdb.geo.Map = cdb.core.Model.extend({
     scrollwheel: true,
     drag: true,
     keyboard: true,
-    provider: 'leaflet'
+    provider: 'openlayers'
   },
 
   initialize: function() {
@@ -775,20 +775,21 @@ cdb.geo.MapView = cdb.core.View.extend({
 
 
 }, {
-  _getClass: function(provider) {
-    var mapViewClass = cdb.geo.LeafletMapView;
-    if(provider === 'googlemaps') {
-      if(typeof(google) != "undefined" && typeof(google.maps) != "undefined") {
-        mapViewClass = cdb.geo.GoogleMapsMapView;
-      } else {
-        cdb.log.error("you must include google maps library _before_ include cdb");
-      }
-    }
+  _getClass: function(mapModel) {
+    var mapViewClass = cdb.geo.OpenLayersMapView;
+    mapModel.set('provider', 'openlayers');
+
+    // TODO: Add a check for feature flag bbg_leaflet  
+    // {
+    //  mapViewClass = cdb.geo.LeafletMapView
+    //  mapModel.set('provider', 'leaflet');
+    // }
+
     return mapViewClass;
   },
 
   create: function(el, mapModel) {
-    var _mapViewClass = cdb.geo.MapView._getClass(mapModel.get('provider'));
+    var _mapViewClass = cdb.geo.MapView._getClass(mapModel);
     return new _mapViewClass({
       el: el,
       map: mapModel

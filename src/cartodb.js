@@ -40,6 +40,7 @@
 
         "../vendor/leaflet.js",
         "../vendor/Control.MiniMap.js",
+        "../vendor/ol.js",
         "../vendor/wax.cartodb.js",
         "../vendor/GeoJSON.js", //geojson gmaps lib
 
@@ -106,6 +107,12 @@
         'geo/gmaps/gmaps_cartodb_layer.js',
         'geo/gmaps/gmaps.geometry.js',
         'geo/gmaps/gmaps.js',
+
+        'geo/ol/ol_base_layer.js',
+        'geo/ol/ol_tiled_layer.js',
+        'geo/ol/ol_cartodb_layergroup.js',
+        'geo/ol/ol_plain_layer.js',
+        'geo/ol/ol.js',
 
         'ui/common/dialog.js',
         'ui/common/share.js',

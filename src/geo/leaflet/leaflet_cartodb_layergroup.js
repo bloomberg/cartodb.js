@@ -356,7 +356,9 @@ function layerView(base) {
           clearTimeout(eventTimeout);
         }
 
-        table.mapTab.setTooltipLayer(layer);
+        if (typeof table !== 'undefined') {
+          table.mapTab.setTooltipLayer(layer);
+        }
 
         eventTimeout = setTimeout(function() {
           self.trigger('mouseover', e, latlon, pxPos, data, layer);
@@ -381,7 +383,9 @@ function layerView(base) {
       };
 
       opts.featureClick  = _.debounce(function() {
-        table.mapTab.setInfowindowLayer(this.layer);
+        if (typeof table !== 'undefined') {
+          table.mapTab.setInfowindowLayer(this.layer);
+        }
 
         _featureClick  && _featureClick.apply(self, arguments);
         self.featureClick  && self.featureClick.apply(self, arguments);
