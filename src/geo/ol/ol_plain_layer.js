@@ -13,8 +13,7 @@
             remove: function(){
                 var element = this.map_ol.getTargetElement();
                 element.style.backgroundImage = undefined;
-                element.style.backgroundColor = "#FF000000";
-                this._dispose();
+                element.style.backgroundColor = "#000000";
             },
             _update: function(){
                 var element = this.map_ol.getTargetElement();

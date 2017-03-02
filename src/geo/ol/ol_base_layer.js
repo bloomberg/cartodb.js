@@ -5,7 +5,9 @@
         this.map_ol = map_ol;
         this.setModel(layerModel);
         this.layer_ol = layer_ol;
-        this.layer_ol.set('layerview', this);
+        
+        if(layer_ol != null)
+            this.layer_ol.set('layerview', this);
  
         this.type = layerModel.get('type').toLowerCase();
     };
